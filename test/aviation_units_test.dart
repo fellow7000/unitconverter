@@ -168,6 +168,25 @@ void main() {
       );
     });
 
+    test('fuel conversions can return the unrounded value', () {
+      final rawValue = 1 *
+          0.8 *
+          weightUnits.factors[WeightDim.lbs]! /
+          weightUnits.factors[WeightDim.kg]!;
+
+      expect(
+        FuelConversions.massFromVolume(
+          1,
+          volumeUnit: VolumeDim.liter,
+          massUnit: WeightDim.lbs,
+          density: 0.8,
+          densityUnit: DensityDim.kgPerLiter,
+          roundResult: false,
+        ),
+        rawValue,
+      );
+    });
+
     test('converts fuel mass to volume using supplied density', () {
       expect(
         FuelConversions.volumeFromMass(

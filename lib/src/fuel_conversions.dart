@@ -9,6 +9,7 @@ abstract final class FuelConversions {
     required WeightDim massUnit,
     required double density,
     required DensityDim densityUnit,
+    bool roundResult = true,
   }) {
     _validateQuantity(volume, 'volume');
     _validateDensity(density);
@@ -26,11 +27,12 @@ abstract final class FuelConversions {
       using: densityUnits,
     );
 
-    return _convertLinearAndRound(
+    return _convertLinearAndApplyPrecision(
       liters * kgPerLiter,
       from: WeightDim.kg,
       to: massUnit,
       using: weightUnits,
+      roundResult: roundResult,
     );
   }
 
@@ -40,6 +42,7 @@ abstract final class FuelConversions {
     required VolumeDim volumeUnit,
     required double density,
     required DensityDim densityUnit,
+    bool roundResult = true,
   }) {
     _validateQuantity(mass, 'mass');
     _validateDensity(density);
@@ -57,11 +60,12 @@ abstract final class FuelConversions {
       using: densityUnits,
     );
 
-    return _convertLinearAndRound(
+    return _convertLinearAndApplyPrecision(
       kilograms / kgPerLiter,
       from: VolumeDim.liter,
       to: volumeUnit,
       using: volumeUnits,
+      roundResult: roundResult,
     );
   }
 
@@ -71,6 +75,7 @@ abstract final class FuelConversions {
     required MassFlowDim massFlowUnit,
     required double density,
     required DensityDim densityUnit,
+    bool roundResult = true,
   }) {
     _validateQuantity(volumeFlow, 'volumeFlow');
     _validateDensity(density);
@@ -88,11 +93,12 @@ abstract final class FuelConversions {
       using: densityUnits,
     );
 
-    return _convertLinearAndRound(
+    return _convertLinearAndApplyPrecision(
       litersPerHour * kgPerLiter,
       from: MassFlowDim.kgPerHour,
       to: massFlowUnit,
       using: massFlowUnits,
+      roundResult: roundResult,
     );
   }
 
@@ -102,6 +108,7 @@ abstract final class FuelConversions {
     required VolumetricFlowDim volumeFlowUnit,
     required double density,
     required DensityDim densityUnit,
+    bool roundResult = true,
   }) {
     _validateQuantity(massFlow, 'massFlow');
     _validateDensity(density);
@@ -119,11 +126,12 @@ abstract final class FuelConversions {
       using: densityUnits,
     );
 
-    return _convertLinearAndRound(
+    return _convertLinearAndApplyPrecision(
       kgPerHour / kgPerLiter,
       from: VolumetricFlowDim.literPerHour,
       to: volumeFlowUnit,
       using: volumetricFlowUnits,
+      roundResult: roundResult,
     );
   }
 
@@ -136,15 +144,16 @@ abstract final class FuelConversions {
     return value * using.factors[to]! / using.factors[from]!;
   }
 
-  static double _convertLinearAndRound<T extends Enum>(
+  static double _convertLinearAndApplyPrecision<T extends Enum>(
     double value, {
     required T from,
     required T to,
     required UnitDefinition<T> using,
+    required bool roundResult,
   }) {
-    return using.limits[to]!.round(
-      _convertLinear(value, from: from, to: to, using: using),
-    );
+    final converted = _convertLinear(value, from: from, to: to, using: using);
+
+    return roundResult ? using.limits[to]!.round(converted) : converted;
   }
 
   static void _validateQuantity(double value, String name) {

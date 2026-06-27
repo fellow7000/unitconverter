@@ -6,8 +6,14 @@ abstract final class UnitConverter {
     required T from,
     required T to,
     required UnitDefinition<T> using,
+    bool roundResult = true,
   }) {
-    return using.convert(value, from: from, to: to);
+    return using.convert(
+      value,
+      from: from,
+      to: to,
+      roundResult: roundResult,
+    );
   }
 
   static double convertAndClamp<T extends Enum>(
@@ -16,12 +22,14 @@ abstract final class UnitConverter {
     required T to,
     required UnitDefinition<T> using,
     double? customMaxValue,
+    bool roundResult = true,
   }) {
     return using.convertAndClamp(
       value,
       from: from,
       to: to,
       customMaxValue: customMaxValue,
+      roundResult: roundResult,
     );
   }
 

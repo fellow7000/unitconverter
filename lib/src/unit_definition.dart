@@ -20,11 +20,15 @@ final class UnitLimits {
 
   double round(double value) => value.toPrecision(precision);
 
-  double roundAndClamp(double value, {double? customMaxValue}) {
-    final roundedValue = round(value);
+  double roundAndClamp(
+    double value, {
+    double? customMaxValue,
+    bool roundResult = true,
+  }) {
+    final result = roundResult ? round(value) : value;
 
     if (!enabled) {
-      return roundedValue;
+      return result;
     }
 
     if (customMaxValue != null && customMaxValue < min) {
@@ -36,7 +40,7 @@ final class UnitLimits {
     }
 
     final effectiveMax = customMaxValue ?? max;
-    return roundedValue.clamp(min, effectiveMax).toDouble();
+    return result.clamp(min, effectiveMax).toDouble();
   }
 }
 
@@ -56,12 +60,13 @@ final class UnitDefinition<T extends Enum> {
     double value, {
     required T from,
     required T to,
+    bool roundResult = true,
   }) {
     _limitsFor(from, parameterName: 'from');
     final targetLimits = _limitsFor(to, parameterName: 'to');
     final convertedValue = _convertValue(value, from: from, to: to);
 
-    return targetLimits.round(convertedValue);
+    return roundResult ? targetLimits.round(convertedValue) : convertedValue;
   }
 
   double convertAndClamp(
@@ -69,6 +74,7 @@ final class UnitDefinition<T extends Enum> {
     required T from,
     required T to,
     double? customMaxValue,
+    bool roundResult = true,
   }) {
     _limitsFor(from, parameterName: 'from');
     final targetLimits = _limitsFor(to, parameterName: 'to');
@@ -77,6 +83,7 @@ final class UnitDefinition<T extends Enum> {
     return targetLimits.roundAndClamp(
       convertedValue,
       customMaxValue: customMaxValue,
+      roundResult: roundResult,
     );
   }
 

@@ -234,6 +234,40 @@ void main() {
       );
     });
 
+    test('convert can return the unrounded value', () {
+      final rawValue = 1 *
+          distanceUnits.factors[DistanceDim.ft]! /
+          distanceUnits.factors[DistanceDim.m]!;
+
+      expect(
+        UnitConverter.convert(
+          1,
+          from: DistanceDim.m,
+          to: DistanceDim.ft,
+          using: distanceUnits,
+          roundResult: false,
+        ),
+        rawValue,
+      );
+    });
+
+    test('convertAndClamp can clamp without rounding first', () {
+      final rawValue = 1013.25 *
+          airPressureUnits.factors[AirPressureDim.inHg]! /
+          airPressureUnits.factors[AirPressureDim.mbar]!;
+
+      expect(
+        UnitConverter.convertAndClamp(
+          1013.25,
+          from: AirPressureDim.mbar,
+          to: AirPressureDim.inHg,
+          using: airPressureUnits,
+          roundResult: false,
+        ),
+        rawValue,
+      );
+    });
+
     test('convertAndClamp applies maximum and minimum', () {
       expect(
         UnitConverter.convertAndClamp(

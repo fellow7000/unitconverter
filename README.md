@@ -48,8 +48,8 @@ target-unit limits, so they cannot be mixed accidentally at the call site.
 
 ## Limits and precision
 
-`UnitConverter.convert` converts and rounds using the target unit's precision.
-It does not apply min/max limits:
+`UnitConverter.convert` converts and rounds using the target unit's precision by
+default. It does not apply min/max limits:
 
 ```dart
 final pressure = UnitConverter.convert(
@@ -62,8 +62,21 @@ final pressure = UnitConverter.convert(
 print(pressure); // 59.06
 ```
 
+Set `roundResult` to `false` when the caller needs the raw converted value:
+
+```dart
+final pressure = UnitConverter.convert(
+  2000,
+  from: AirPressureDim.mbar,
+  to: AirPressureDim.inHg,
+  using: airPressureUnits,
+  roundResult: false,
+);
+```
+
 Use `UnitConverter.convertAndClamp` when configured limits are part of the
-required behavior:
+required behavior. It also rounds by default and accepts `roundResult: false`
+when clamping should be applied to the raw converted value:
 
 ```dart
 final pressure = UnitConverter.convertAndClamp(

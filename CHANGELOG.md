@@ -2,6 +2,7 @@
 
 - Added typed generic unit definitions and conversion APIs.
 - Added `convertAndClamp` to make limit enforcement explicit.
+- Added `roundResult` to allow callers to opt out of target precision rounding.
 - Changed `convert` to perform conversion and target precision rounding only.
 - Audited built-in conversion factors and increased precision to avoid lossy
   default results.
