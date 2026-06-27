@@ -251,6 +251,19 @@ void main() {
       );
     });
 
+    test('convert supports call-site precision override', () {
+      expect(
+        UnitConverter.convert(
+          1,
+          from: DistanceDim.m,
+          to: DistanceDim.ft,
+          using: distanceUnits,
+          precision: 4,
+        ),
+        3.2808,
+      );
+    });
+
     test('convertAndClamp can clamp without rounding first', () {
       final rawValue = 1013.25 *
           airPressureUnits.factors[AirPressureDim.inHg]! /
@@ -265,6 +278,19 @@ void main() {
           roundResult: false,
         ),
         rawValue,
+      );
+    });
+
+    test('convertAndClamp supports call-site precision override', () {
+      expect(
+        UnitConverter.convertAndClamp(
+          1013.25,
+          from: AirPressureDim.mbar,
+          to: AirPressureDim.inHg,
+          using: airPressureUnits,
+          precision: 4,
+        ),
+        29.9213,
       );
     });
 
@@ -343,6 +369,19 @@ void main() {
           to: AirPressureDim.inHg,
           using: airPressureUnits,
           customMaxValue: 27,
+        ),
+        throwsArgumentError,
+      );
+    });
+
+    test('rejects a negative precision override', () {
+      expect(
+        () => UnitConverter.convert(
+          1,
+          from: DistanceDim.m,
+          to: DistanceDim.ft,
+          using: distanceUnits,
+          precision: -1,
         ),
         throwsArgumentError,
       );

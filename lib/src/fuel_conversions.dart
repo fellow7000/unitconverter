@@ -10,6 +10,7 @@ abstract final class FuelConversions {
     required double density,
     required DensityDim densityUnit,
     bool roundResult = true,
+    int? precision,
   }) {
     _validateQuantity(volume, 'volume');
     _validateDensity(density);
@@ -33,6 +34,7 @@ abstract final class FuelConversions {
       to: massUnit,
       using: weightUnits,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
@@ -43,6 +45,7 @@ abstract final class FuelConversions {
     required double density,
     required DensityDim densityUnit,
     bool roundResult = true,
+    int? precision,
   }) {
     _validateQuantity(mass, 'mass');
     _validateDensity(density);
@@ -66,6 +69,7 @@ abstract final class FuelConversions {
       to: volumeUnit,
       using: volumeUnits,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
@@ -76,6 +80,7 @@ abstract final class FuelConversions {
     required double density,
     required DensityDim densityUnit,
     bool roundResult = true,
+    int? precision,
   }) {
     _validateQuantity(volumeFlow, 'volumeFlow');
     _validateDensity(density);
@@ -99,6 +104,7 @@ abstract final class FuelConversions {
       to: massFlowUnit,
       using: massFlowUnits,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
@@ -109,6 +115,7 @@ abstract final class FuelConversions {
     required double density,
     required DensityDim densityUnit,
     bool roundResult = true,
+    int? precision,
   }) {
     _validateQuantity(massFlow, 'massFlow');
     _validateDensity(density);
@@ -132,6 +139,7 @@ abstract final class FuelConversions {
       to: volumeFlowUnit,
       using: volumetricFlowUnits,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
@@ -150,10 +158,13 @@ abstract final class FuelConversions {
     required T to,
     required UnitDefinition<T> using,
     required bool roundResult,
+    required int? precision,
   }) {
     final converted = _convertLinear(value, from: from, to: to, using: using);
 
-    return roundResult ? using.limits[to]!.round(converted) : converted;
+    return roundResult
+        ? using.limits[to]!.round(converted, precision: precision)
+        : converted;
   }
 
   static void _validateQuantity(double value, String name) {

@@ -62,6 +62,19 @@ final pressure = UnitConverter.convert(
 print(pressure); // 59.06
 ```
 
+Pass `precision` to override the target unit's configured decimal precision for
+one call:
+
+```dart
+final pressure = UnitConverter.convert(
+  2000,
+  from: AirPressureDim.mbar,
+  to: AirPressureDim.inHg,
+  using: airPressureUnits,
+  precision: 4,
+);
+```
+
 Set `roundResult` to `false` when the caller needs the raw converted value:
 
 ```dart
@@ -76,7 +89,8 @@ final pressure = UnitConverter.convert(
 
 Use `UnitConverter.convertAndClamp` when configured limits are part of the
 required behavior. It also rounds by default and accepts `roundResult: false`
-when clamping should be applied to the raw converted value:
+when clamping should be applied to the raw converted value. `precision` is also
+available on `convertAndClamp` and the fuel conversion helpers:
 
 ```dart
 final pressure = UnitConverter.convertAndClamp(

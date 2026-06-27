@@ -187,6 +187,20 @@ void main() {
       );
     });
 
+    test('fuel conversions support call-site precision override', () {
+      expect(
+        FuelConversions.massFromVolume(
+          1,
+          volumeUnit: VolumeDim.liter,
+          massUnit: WeightDim.lbs,
+          density: 0.8,
+          densityUnit: DensityDim.kgPerLiter,
+          precision: 4,
+        ),
+        1.7637,
+      );
+    });
+
     test('converts fuel mass to volume using supplied density', () {
       expect(
         FuelConversions.volumeFromMass(

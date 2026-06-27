@@ -7,12 +7,14 @@ abstract final class UnitConverter {
     required T to,
     required UnitDefinition<T> using,
     bool roundResult = true,
+    int? precision,
   }) {
     return using.convert(
       value,
       from: from,
       to: to,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
@@ -23,6 +25,7 @@ abstract final class UnitConverter {
     required UnitDefinition<T> using,
     double? customMaxValue,
     bool roundResult = true,
+    int? precision,
   }) {
     return using.convertAndClamp(
       value,
@@ -30,6 +33,7 @@ abstract final class UnitConverter {
       to: to,
       customMaxValue: customMaxValue,
       roundResult: roundResult,
+      precision: precision,
     );
   }
 
