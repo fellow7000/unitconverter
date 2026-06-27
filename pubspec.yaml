@@ -1,15 +1,11 @@
 name: unitconverter
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# homepage: https://www.example.com
+description: A pure Dart library for converting values between common units.
+version: 2.0.0
+repository: https://github.com/fellow7000/unitconverter
 
 environment:
-  sdk: '>=2.17.6 <3.0.0'
-
-dependencies:
-  riverpod: ^1.0.3
-#   path: ^1.8.0
+  sdk: '>=3.0.0 <4.0.0'
 
 dev_dependencies:
-  lints: ^2.0.0
-  test: ^1.16.0
+  lints: ^6.1.0
+  test: ^1.31.1
